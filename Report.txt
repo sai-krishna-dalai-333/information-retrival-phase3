@@ -1,0 +1,35 @@
+Project Report: Information Retrieval System (Project 3)
+
+1. Introduction
+This project implements a fully functional Information Retrieval (IR) system in Java. It processes documents and user queries using the Vector Space Model (VSM) and ranks documents based on their relevance using Cosine Similarity. 
+
+2. System Design
+2.1 Term Weighting and Normalization Schemes
+- TF-IDF Weighting: The system manually computes Term Frequency-Inverse Document Frequency without relying on external libraries.
+- TF (Term Frequency): The raw count of a term appearing in a document or query.
+- IDF (Inverse Document Frequency): Computed as log(N / DF), where N is the total corpus size, and DF is the number of documents containing the term.
+- Normalization: Euclidean norms are calculated for both the document vectors and the query vectors to normalize the dot product, yielding the exact Cosine Similarity.
+
+2.2 Data Structures and Classes
+- HashMaps: Heavily utilized for building the Forward Index, Inverted Document Frequencies, and storing pre-computed TF-IDF weights and Document Norms for $O(1)$ lookup times.
+- Topic.java: A custom model class designed to parse and encapsulate the `<num>`, `<title>`, `<desc>`, and `<narr>` tags from the batch queries.
+- ArrayLists & Comparators: Used to store and dynamically sort the resulting Map.Entry combinations of Document IDs and their corresponding Cosine Similarity scores.
+
+2.3 System Components
+- Preprocessing (tokenizeAndStem): Converts text to lowercase, strips non-alphanumeric punctuation, filters out terms using `stopwordlist.txt`, and accurately reduces words to their root using the provided `Porter.java` stemmer.
+- Indexing (buildIndexAndTfIdf): Scans the corpus to calculate TF, DF, TF-IDF weights, and Document Norms in a single pass to optimize memory and retrieval speed.
+- Query Processing (processQueries): Dynamically builds a query vector based on the selected configuration setting (Title, Title+Desc, or Title+Narr), calculates the dot product against relevant documents, normalizes the result, and ranks them.
+
+3. System Performance Comparison
+3.1 Query Settings
+- Main Query (Title Only): Represents the baseline search using a maximum of three keywords.
+- Description + Title: Expands the query context by including the sentence-long description.
+- Narrative + Title: The most expansive query, dictating specific relevance constraints.
+
+3.2 Performance Results & Analysis
+- Main Query (Title Only): Provides baseline precision. Retrieval is highly dependent on exact keyword overlap (aided by Porter Stemming).
+- Description + Title: Yields improved precision and recall due to the addition of context-rich keywords, smoothing out vocabulary mismatches.
+- Narrative + Title: Yields the highest theoretical recall, though precision can occasionally drop if the narrative introduces negative constraints ("Documents discussing X are NOT relevant"), which standard Cosine Similarity does not natively filter.
+
+4. Conclusion
+The Java-based Information Retrieval System successfully and accurately ranks documents using TF-IDF and the Vector Space Model from scratch. System performance improves consistently as more context is fed into the Query Vector via the Description and Narrative tags. Future enhancements could include BM25 probabilistic weighting or explicit handling of negative query constraints.
