@@ -12,6 +12,7 @@ public class IRSystem {
     private Map<String, Double> docNorms = new HashMap<>();
     
     private Porter stemmer = new Porter();
+    
     public static void main(String[] args) {
         try {
             IRSystem ir = new IRSystem();
@@ -27,12 +28,16 @@ public class IRSystem {
             System.out.println("Loading queries...");
             List<Topic> queries = ir.loadQueries("topics.txt");
             
-            System.out.println("Processing queries and ranking documents...");
-            // Mode: 1 = Title only, 2 = Title + Desc, 3 = Title + Narr
-            // Changed to Mode 3 to provide maximum context and boost recall/precision
-            ir.processQueries(queries, 3, "vsm_output.txt");
+            System.out.println("Processing queries for Setting 1 (Title Only)...");
+            ir.processQueries(queries, 1, "output_title.txt");
+
+            System.out.println("Processing queries for Setting 2 (Title + Description)...");
+            ir.processQueries(queries, 2, "output_title_desc.txt");
+
+            System.out.println("Processing queries for Setting 3 (Title + Narrative)...");
+            ir.processQueries(queries, 3, "output_title_narr.txt");
             
-            System.out.println("Done! Results saved to vsm_output.txt");
+            System.out.println("Done! Review the three output text files for rankings.");
         } catch (Exception e) {
             e.printStackTrace();
         }

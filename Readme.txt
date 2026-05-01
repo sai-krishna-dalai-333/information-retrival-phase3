@@ -11,7 +11,9 @@ File Structure
 * stopwordlist.txt: A file containing a list of stopwords to be excluded during text processing.
 * documents/: A folder containing the documents to be indexed and searched.
 * topics.txt: A file containing the queries to be processed.
-* vsm_output.txt: The output file where the ranked results for each query are saved.
+* output_title.txt: The ranked results using only the Title setting.
+* output_title_desc.txt: The ranked results using the Title + Description setting.
+* output_title_narr.txt: The ranked results using the Title + Narrative setting.
 
 How to Run the Program
 ----------------------
@@ -35,6 +37,11 @@ How to Run the Program
 
 
 4. View the Results:
-   The system will process the documents and queries in batch mode. The results will be saved in vsm_output.txt in the format:
+   To comply with project specifications, the system processes queries across three different context settings and generates three distinct output files:
+   
+   1. output_title.txt      (Setting 1: Main Query/Title only)
+   2. output_title_desc.txt (Setting 2: Title + Description)
+   3. output_title_narr.txt (Setting 3: Title + Narrative)
 
+   All three files adhere to the required tab-separated batch-mode format:
    TOPIC    DOCUMENT    UNIQUE#    COSINE_VALUE
